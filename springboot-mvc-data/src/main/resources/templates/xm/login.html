@@ -1,0 +1,57 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>登陆</title>
+    <script th:inline="javascript">
+        var userInfo = [[${session.userInfo}]];  // session(后台是user)
+    </script>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $("#tj").bind("click", function () {
+                var userName = $("#userName").val();
+                var password = $("#password").val();
+
+                // 发送ajax请求
+                $.ajax({
+                    url: '/user/login?username=' + userName + '&password=' + password,
+                    type: 'GET',
+                    contentType: 'application/json;charset=utf-8',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == 200) {
+                            alert("登陆成功");
+                            //跳转其它页面
+                            window.location.href = '/view/list';
+                        } else {
+                            alert(data.errorMessage);
+                        }
+                    }
+                })
+
+            })
+        })
+    </script>
+
+
+    <style>
+        div {
+            padding: 10px 10px 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+<h2>我是8081---欢迎登陆!</h2>
+
+<div>
+    <input type="text" id="userName" name="userName" value="admin">
+</div>
+<div>
+    <input type="password" id="password" name="password" value="admin">
+</div>
+<div>
+    <input type="button" id="tj" value="确认">
+</div>
+
+</body>
+</html>
